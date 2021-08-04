@@ -1,0 +1,5 @@
+{
+    "address" : "gmailメールアドレス（送信先=受信先）",
+    "password" : "アカウントパスワード（gmail）",
+    "mongo_url" : "mongodB atlas 認証URL"
+}
