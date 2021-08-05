@@ -1,0 +1,209 @@
+{
+    # 証券コード
+      SecuritiesNo:"9999"
+    # 会社名①
+      company:"見谷HLD"
+    # 企業サイト
+      web: "http://kjalj.com"
+    # 上場日①
+      listingDate:"20210612"
+    # 公募価格
+      pubOfferPrice:"400"
+    # 単元株
+      unitShare:100
+    # 騰落率(%)
+      rfRate:177.15
+    # 時価総額(marketcapitalization)①
+      mrktcptlz:{
+        # 仮条件決定前
+        beforePD: 20010000,
+      },
+    # 上場後の毎日のデータ
+      priceDiary{
+        [
+          20210708,   # 0.日付
+          1823,       # 1.初値
+          1760,       # 2.終値
+          2018,       # 3.高値
+          1400,       # 4.安値
+          12329,      # 5.信用買残
+          234989,     # 6.信用売残
+          34.23       # 7.信用倍率
+        ],
+        [
+          20210709,   # 0.日付
+          1823,       # 1.初値
+          1760,       # 2.終値
+          2018,       # 3.高値
+          1400,       # 4.安値
+          12329,      # 5.信用買残
+          234989,     # 6.信用売残
+          34.23       # 7.信用倍率
+        ],
+      }
+    # 市場①
+      market:"マザーズ"
+    # 予想利益（仮条件決定前）①
+      expectedProfitBeforeTD:{
+        # 想定価格
+        exPrice: "1000",
+        # 初値予想
+        initPriceEx:{
+          min: "800",
+          max: "1200"
+        },
+        # 予想利益
+        exProfit:{
+          min: "800",
+          max: "1200"
+        },
+      },
+    # 予想利益（仮条件決定後）
+      expectedProfitAfterTD:{
+        # 仮条件
+        tdPrice:{
+          min: "800",
+          max: "1200"
+        },
+        # 初値予想
+        initPriceEx:{
+          min: "800",
+          max: "1200"
+         },
+        # 予想利益
+        exProfit:{
+          min: "800",
+          max: "1200"
+        },
+      },
+    # 業種①
+      category:"IT・通信"
+    # 評価（ipokabu.net調べ）①
+      grade:"A"
+    # 初値②
+      InitPrice:200
+    # 初値売り損益②
+      InitPriceSellProfit:20000
+    # 単独財務情報①
+      IndpndntFinInfo:[{
+        # 決算期yyyymm
+        fiscalYear:"202106"
+        # 売上高	1,668,982	1,417,141	765,088
+        amountOfsalls:1668982
+        # 経常利益	54,622	82,346	2,842
+        ordinaryIncome:54622
+        # 当期利益	13,570	58,059	974
+        netIncome:13570
+        # 純資産	358,733	344,859	286,800
+        netWorth:358
+        # 配当金※	―	―	―
+        dividend:""
+        # EPS※	6.62	28.32	0.99
+        eps:6.62
+        # BPS※	-168.57	-175.19	-407.02※配当金、EPS、BPSは（単位/円）
+        bps:-168.57
+      },
+      {
+        amountOfsalls:1668982
+        ordinaryIncome:54622
+        netIncome:13570
+        netWorth:358
+        dividend:""
+        eps:6.62
+        bps:-168.57
+      }],
+    # 連結財務情報①　nullあり
+        CnsldtdFinInfo:[{
+        # 決算期yyyymm
+        fiscalYear:"202106"
+        # 売上高	1,668,982	1,417,141	765,088
+        amountOfsalls:1668982
+        # 経常利益	54,622	82,346	2,842
+        ordinaryIncome:54622
+        # 当期利益	13,570	58,059	974
+        netIncome:13570
+        # 純資産	358,733	344,859	286,800
+        netWorth:358
+        # EPS※	6.62	28.32	0.99
+        eps:6.62
+        # BPS※	-168.57	-175.19	-407.02※配当金、EPS、BPSは（単位/円）
+        bps:-168.57
+      },
+      {
+        amountOfsalls:1668982
+        ordinaryIncome:54622
+        netIncome:13570
+        netWorth:358
+        dividend:""
+        eps:6.62
+        bps:-168.57
+      }]
+    # 上位10株主とロックアップ①
+      Shareholders:[{
+        # 株主名
+        name:"見谷龍汰郎"
+        # 役職
+        position:"代表取締役"
+        # 株数
+        sheredNum:12345
+        # 潜在株式数
+        potentialShares:12345
+        # 比率
+        rate:50
+        # 売出数
+        outShares:6000
+        # ロックアップ
+        lockUp:{
+          day:180,
+          rate:1.5
+          status:"制度ロックアップ"
+        }
+      },
+      {
+        name:"東島拓也"
+        sheredNum:12345
+        rate:20
+        out:4000
+        new:1000
+        lockUp:{
+          day:180,
+          rate:1.5
+          status:"制度ロックアップ"
+        }
+      }]
+    # ブックビルディング期間	2021/6/30 (水) ～ 7/6 (火)
+      bookbuilding:{
+        start:"20210630",
+        end:"20210706"
+      }
+    # 主幹事データ
+      bank:{
+        name: "みずほ",
+        rate: "86.69％",
+      },
+    # 当選口数	
+      winningNum:"144490"
+    # 発行済株式数	7,228,500株	
+      issuedShares: "7226500"
+    # オファリングレシオ	20％
+      oar:0.2
+    # 公募株数	840,000株  →企業に入る
+      pubOfferedShares:640000
+    # 売出株数	420,000株  →既存株主に入る
+      sellShares:420000
+    # 吸収金額	18.8億円あたり	
+      absorptionAmount:{
+        beforePD: 1442342342,
+      },
+    # O.A分	189,000株(追加分)
+      oaShared:169000
+    # 仮条件決定日	6/28 (月)	
+      tdd:"20210628"
+    # 公募価格決定日	7/7 (水)
+      pdd:"20210707"
+    # 購入期間	7/8 (木) ～ 7/13 (火)
+      purchasePeriod:{
+        start:"20210630",
+        end:"20210706"
+      }
+    
