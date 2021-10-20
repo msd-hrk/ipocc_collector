@@ -6,8 +6,11 @@ from dbutils import dbCommon
 from logging import config,getLogger
 from collector import utils, ipo_list_page
 import time
+from app_info import config as app_conf
 
 def explorer_main():
+    # 設定値読み込み
+    conf = app_conf.Config()
 
     # ログ設定ファイルからログ設定を読み込み
     config.fileConfig('log/logging.conf')
@@ -81,10 +84,11 @@ def explorer_main():
             data["tdd"] = utils.convesion_date_format(tdd) # 仮条件決定日
 
             logger.info(data)
+            if conf.data_insert_flg:
+                # mongoDBへ登録
+                dbutil.insert_exploer_data_one(data)
+                logger.debug("insert DB [%s]", data["securitiesNo"])
 
-            # mongoDBへ登録
-            dbutil.insert_exploer_data_one(data)
-            logger.info('登録完了')
             time.sleep(1)
         return True
     except Exception as err:

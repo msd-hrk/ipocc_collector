@@ -21,17 +21,21 @@ main_msg_list = []
 if not explorer.explorer_main():
     main_msg_list.append("explorer：失敗")
 
-if not collector.collector_main():
-    main_msg_list.append("collector：失敗")
+err_cnt_collector = collector.collector_main()
+if err_cnt_collector > 0:
+    main_msg_list.append("collector：" + str(err_cnt_collector) + "件 失敗")
 
-if not geek.geek_main():
-    main_msg_list.append("geek：失敗")
+err_cnt_geek = geek.geek_main()
+if err_cnt_geek > 0:
+    main_msg_list.append("geek：" + str(err_cnt_geek) + "件 失敗")
 
-if not reporter.reporter_main():
-    main_msg_list.append("reporter：失敗")
+err_cnt_reporter = reporter.reporter_main()
+if err_cnt_reporter > 0:
+    main_msg_list.append("reporter：" + str(err_cnt_reporter) + "件 失敗")
 
-if not secretary.secretary_main():
-    main_msg_list.append("secretary：失敗")
+err_cnt_secretary = secretary.secretary_main()
+if err_cnt_secretary > 0:
+    main_msg_list.append("secretary：" + str(err_cnt_secretary) + "件 失敗")
 
 # 情報取得処理の判定とメール送信
 main_msg = "情報取得処理成功"

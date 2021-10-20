@@ -2,21 +2,30 @@ from collector import ipo_detail_page, utils
 from dbutils import dbCommon
 from logging import config,getLogger
 import time
+from app_info import config as app_conf
 
 def reporter_main():
+    # 設定値の取得
+    conf = app_conf.Config()
+
     # ログ設定ファイルからログ設定を読み込み
     config.fileConfig('log/logging.conf')
     logger = getLogger()
     logger.debug("reporter_main処理開始")
-    try:
+    err_securities_no_list = []
 
-        # mongoDb接続
-        dbutil = dbCommon.DbUtils()
+    # mongoDb接続
+    dbutil = dbCommon.DbUtils()
 
-        # コードリスト内のreporter処理対象メソッドの取得
-        targetList = dbutil.reporter_target()
+    # コードリスト内のreporter処理対象メソッドの取得
+    targetList = dbutil.reporter_target()
 
-        for data in targetList:
+    for data in targetList:
+        try:
+            # 無視する証券コードの場合
+            if data["securitiesNo"] in conf.ignore_nums:
+                continue
+
             # 証券コードから詳細ページの取得
             detail_colector = ipo_detail_page.DetailCollector(data["securitiesNo"])
 
@@ -33,11 +42,15 @@ def reporter_main():
                 "rfRate": round((int(init_price) / data["pubOfferPrice"]) * 100 ,2), # 騰落率, 
             }
             logger.debug(update_data)
-            dbutil.update_with_sec_no(data["securitiesNo"], update_data)
+            if conf.data_insert_flg:
+                dbutil.update_with_sec_no(data["securitiesNo"], update_data)
+                logger.debug("insert DB [%s]", data["securitiesNo"])
 
             time.sleep(1)
-        return True
-    except Exception as err:
-        logger.exception('Error dosomething: %s', err)
-        return False
 
+        except Exception as err:
+            err_securities_no_list.append(data["securitiesNo"])
+            logger.exception('Error securitiesNo at %s: %s',data["securitiesNo"], err)
+            continue
+
+    return len(err_securities_no_list)

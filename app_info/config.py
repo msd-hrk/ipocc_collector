@@ -7,3 +7,5 @@ class Config:
         self.address = config["address"]
         self.password = config["password"]
         self.mongo_url = config["mongo_url"]
+        self.ignore_nums = config["ignore_nums"]
+        self.data_insert_flg = bool(config["data_insert_flg"])

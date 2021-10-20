@@ -2,21 +2,30 @@ from collector import ipo_detail_page,yahoo_detail_page
 from dbutils import dbCommon
 from logging import config,getLogger
 import time
+from app_info import config as app_conf
 
 def collector_main():
+    # 設定値の取得
+    conf = app_conf.Config()
+
     # ログ設定ファイルからログ設定を読み込み
     config.fileConfig('log/logging.conf')
     logger = getLogger()
     logger.debug("collector_main処理開始")
-    try:
+    err_securities_no_list = []
+    # mongoDb接続
+    dbutil = dbCommon.DbUtils()
 
-        # mongoDb接続
-        dbutil = dbCommon.DbUtils()
+    # コードリスト内のcolector処理対象メソッドの取得
+    targetList = dbutil.colector_target()
 
-        # コードリスト内のcolector処理対象メソッドの取得
-        targetList = dbutil.colector_target()
-
-        for data in targetList:
+    for data in targetList:
+        try:
+            
+            # 無視する証券コードの場合
+            if data["securitiesNo"] in conf.ignore_nums:
+                continue
+                
             # 証券コードから詳細ページの取得クラスの呼出
             detail_colector = ipo_detail_page.DetailCollector(data["securitiesNo"])
             yahoo_colector = yahoo_detail_page.YahooDetailCollector(data["securitiesNo"])
@@ -57,10 +66,15 @@ def collector_main():
                 "beforePD": update_data["issuedShares"] * update_data["expectedProfitAfterTD"]["tdPrice"]["max"],
             }
             logger.debug(update_data)
-            dbutil.update_with_sec_no(data["securitiesNo"], update_data)
+            if conf.data_insert_flg:
+                dbutil.update_with_sec_no(data["securitiesNo"], update_data)
+                logger.debug("insert DB [%s]", data["securitiesNo"])
 
             time.sleep(1)
-        return True
-    except Exception as err:
-        logger.exception('Error dosomething: %s', err)
-        return False
+        except Exception as err:
+            err_securities_no_list.append(data["securitiesNo"])
+            logger.exception('Error securitiesNo at %s: %s',data["securitiesNo"], err)
+            continue
+    
+    return len(err_securities_no_list)
+    

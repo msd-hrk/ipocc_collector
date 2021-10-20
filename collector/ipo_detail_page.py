@@ -50,8 +50,14 @@ class DetailCollector():
             self.bank_block = lockup[0]
             self.lockup_block = lockup[1]
         else:
-            self.bank_block = None
-            self.lockup_block = lockup[0]
+            # 証券会社か株主情報か判定
+            table_name = lockup[0].select("tr th")[0].get_text()            
+            if table_name == "証券会社":
+                self.bank_block = lockup[0]
+                self.lockup_block = None
+            else:
+                self.bank_block = None
+                self.lockup_block = lockup[0]
         
     def get_market(self):
         market_and_categoly = self.sammary_block.select('tr')[1]
@@ -140,6 +146,8 @@ class DetailCollector():
                 # 売上高  int
                 am_l = self.solo_finance_block.select('tr')[1]
                 amount_of_salls = utils.delete_canma(am_l.select('td')[i].get_text())
+                if not utils.int_check(amount_of_salls):
+                    amount_of_salls = 0
                 # 経常利益  int
                 ord_in_l = self.solo_finance_block.select('tr')[2]
                 ordinary_income = utils.delete_canma(ord_in_l.select('td')[i].get_text())
@@ -223,7 +231,12 @@ class DetailCollector():
     def get_share_holders(self):
         # 返却用リスト
         data = []
+        if self.lockup_block is None:
+            return data
+            
         lockup_list = self.lockup_block.select("tr")
+        # 売り出しフラグ（売出株数が記載されているかどうか）
+        out_stock_flg = self.lockup_block.select("tr th")[2].get_text() == "売出数"
         for i in range(1, len(lockup_list), 1):
             lockup_l = lockup_list[i].select("td")
             # 株主名 str
@@ -237,7 +250,11 @@ class DetailCollector():
             stock_b = lockup_l[1].contents
             shered_num = utils.arange_data(utils.delete_canma(str(stock_b[0]).replace("株","")))
             # 比率 str
-            rate = lockup_l[1].select(".kome")[0].get_text()
+            rate = ""
+            if out_stock_flg:
+                rate = lockup_l[1].select(".kome")[0].get_text()
+            else:
+                rate = lockup_l[2].get_text()
             # 潜在株数 int
             potential_shares = 0
             if len(stock_b) > 3:
@@ -245,9 +262,10 @@ class DetailCollector():
                 potential_shares = utils.del_str(pot_s,"（","）",",")
             # 売出数 int
             out_shares = 0
-            out_b = utils.arange_data(utils.del_str(lockup_l[2].get_text(),",","株"))
-            if utils.int_check(out_b):
-                out_shares = out_b
+            if out_stock_flg:
+                out_b = utils.arange_data(utils.del_str(lockup_l[2].get_text(),",","株"))
+                if utils.int_check(out_b):
+                    out_shares = out_b
             # ロックアップ情報
             lockup_b = lockup_l[3].get_text()
             lockup = {
