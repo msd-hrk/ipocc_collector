@@ -115,13 +115,13 @@ class DetailCollector():
         tdd_line = self.book_block.select('tr')[6]
         tdd_slush = tdd_line.select('td')[0].get_text()
         tdd = re.search(r'\d{1,2}/\d{1,2}', str(tdd_slush)).group()
-        return utils.convesion_date_format(tdd)
+        return utils.str_to_int(utils.convesion_date_format(tdd))
         
     def get_pdd(self):
         pdd_line = self.book_block.select('tr')[6]
         pdd_slush = pdd_line.select('td')[1].get_text()
         pdd = re.search(r'\d{1,2}/\d{1,2}', str(pdd_slush)).group()
-        return utils.convesion_date_format(pdd)
+        return utils.str_to_int(utils.convesion_date_format(pdd))
 
     def get_purchase_period(self):
         p_period_l = self.book_block.select('tr')[7]
@@ -131,8 +131,8 @@ class DetailCollector():
         end_date = re.search(r'\d{1,2}/\d{1,2}', str(array[1])).group()
         end_date_yyyymmdd = utils.convesion_date_format(end_date)
         return {
-            "start": start_date_yyyymmdd,
-            "end": end_date_yyyymmdd
+            "start": utils.str_to_int(start_date_yyyymmdd),
+            "end": utils.str_to_int(end_date_yyyymmdd)
         }
 
     def get_indpndnt_fin_info(self):

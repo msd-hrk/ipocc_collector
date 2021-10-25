@@ -81,7 +81,7 @@ def explorer_main():
 
             tdd_slush = soup.select('.ta_syosai_sp')[1].select('tr')[6].select('td')[0].get_text()
             tdd = re.search(r'\d{1,2}/\d{1,2}', str(tdd_slush)).group()
-            data["tdd"] = utils.convesion_date_format(tdd) # 仮条件決定日
+            data["tdd"] = utils.str_to_int(utils.convesion_date_format(tdd)) # 仮条件決定日
 
             logger.info(data)
             if conf.data_insert_flg:

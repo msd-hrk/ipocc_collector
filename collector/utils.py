@@ -97,10 +97,12 @@ def check_work_day():
     else:
         return False
 
-
+def day_to_int(day):
+    return int(day.strftime("%Y%m%d"))
     
+def get_today():
+    now = datetime.date.today()
+    return int(now.strftime("%Y%m%d"))
 
-    
-
-    
-
+def str_to_int(str_yyyymmdd):
+    return int(str_yyyymmdd)

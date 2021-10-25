@@ -21,7 +21,7 @@ class ListCollector():
         tag_data = self.data_up.select_one('td')
         monthAndDay = re.search(r'\d{1,2}/\d{1,2}', str(tag_data)).group()
         listingDate = utils.convesion_date_format(monthAndDay)
-        return listingDate
+        return utils.str_to_int(listingDate)
 
     def get_bookbilding_start(self):
         tag_data = self.data_up.select_one('.ipo_yotei2')
@@ -33,7 +33,7 @@ class ListCollector():
         array = str(tag_data.get_text()).split("～")
         start_date = re.search(r'\d{1,2}/\d{1,2}', str(array[0])).group()
         start_date_yyyymmdd = utils.convesion_date_format(start_date)
-        return start_date_yyyymmdd
+        return utils.str_to_int(start_date_yyyymmdd)
 
 
     def get_bookbilding_end(self):
@@ -46,7 +46,7 @@ class ListCollector():
         array = str(tag_data.get_text()).split("～")
         end_date = re.search(r'\d{1,2}/\d{1,2}', str(array[1])).group()
         end_date_yyyymmdd = utils.convesion_date_format(end_date)
-        return end_date_yyyymmdd
+        return utils.str_to_int(end_date_yyyymmdd)
             
     def get_grade(self):
         tag_data = self.data_up.select("td")[0].select("span")[0].get_text()

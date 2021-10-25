@@ -10,8 +10,8 @@ class DbUtils():
         conf = config.Config()
         # クライアント取得
         self.client = MongoClient(conf.mongo_url)
-        self.db = self.client.ipocc
-        self.code_list = self.db.codelist
+        self.db = self.client.ipocc2
+        self.code_list = self.db.codelist2
 
     def search_code_list(self, code_no):
         return self.code_list.find_one({'securitiesNo': code_no})
@@ -91,7 +91,3 @@ class DbUtils():
         
             target.append(data)
         return target
-
-        
-        
-        

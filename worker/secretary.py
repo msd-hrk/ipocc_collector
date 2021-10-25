@@ -30,7 +30,6 @@ def secretary_main():
             # 証券コードから詳細ページの取得
             yahoo_collector = yahoo_page.YahooCollector(data["securitiesNo"])
 
-            today_data = []
             # 今日の日付も格納
             now = datetime.date.today()
             now_yyyymmdd = now.strftime("%Y%m%d")
@@ -48,20 +47,22 @@ def secretary_main():
                     credit_unsold = int(credit_unsold)
                     margin_rate = round(float(credit_unpurchased / credit_unsold), 2)
 
-            today_data.append(now_yyyymmdd) # 日付
-            today_data.append(yahoo_collector.get_open_price()) # 始値
-            today_data.append(yahoo_collector.get_closing_price()) # 終値
-            today_data.append(yahoo_collector.get_high_price()) # 高値
-            today_data.append(yahoo_collector.get_low_price()) # 安値
-            today_data.append(credit_unpurchased) # 信用買残
-            today_data.append(credit_unsold) # 信用売残
-            today_data.append(margin_rate) # 信用倍率
+            today_dat = {
+                "date": utils.str_to_int(now_yyyymmdd), # 日付
+                "openPrice": yahoo_collector.get_open_price(), # 始値
+                "closePrice": yahoo_collector.get_closing_price(), # 終値
+                "maxPrice": yahoo_collector.get_high_price(), # 高値
+                "minPrice": yahoo_collector.get_low_price(), # 安値
+                "prchsMargin": credit_unpurchased, # 信用買残 
+                "salesMargin": credit_unsold, # 信用売残 
+                "ratioOfMargin": margin_rate, # 信用倍率 
+            }
 
             # priceDiaryフィールドが存在するか
             if not utils.check_exist_key(data, "priceDiary"):
                 logger.debug("初登録の証券コード：%s",data["securitiesNo"])
                 data["priceDiary"] = []
-            data["priceDiary"].append(today_data)
+            data["priceDiary"].append(today_dat)
 
             logger.debug(data["priceDiary"])
             if conf.data_insert_flg:
