@@ -47,8 +47,14 @@ class DetailCollector():
         # ロックアップデータ
         lockup = soup.select('.ta_base')
         if len(lockup) >1:
-            self.bank_block = lockup[0]
-            self.lockup_block = lockup[1]
+            # 株主情報があるか判定
+            title_name = lockup[0].select("tr th")[0].get_text()            
+            if title_name == "公開価格":
+                self.bank_block = lockup[0]
+                self.lockup_block = None
+            else:
+                self.bank_block = lockup[0]
+                self.lockup_block = lockup[1]
         else:
             # 証券会社か株主情報か判定
             table_name = lockup[0].select("tr th")[0].get_text()            
