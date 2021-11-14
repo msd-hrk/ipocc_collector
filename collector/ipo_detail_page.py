@@ -48,22 +48,12 @@ class DetailCollector():
         lockup = soup.select('.ta_base')
         if len(lockup) >1:
             # 株主情報があるか判定
-            title_name = lockup[0].select("tr th")[0].get_text()            
-            if title_name == "証券会社":
-                self.bank_block = lockup[0]
-                self.lockup_block = None
-            else:
-                self.bank_block = lockup[0]
-                self.lockup_block = lockup[1]
-        else:
-            # 証券会社か株主情報か判定
-            table_name = lockup[0].select("tr th")[0].get_text()            
-            if table_name == "証券会社":
-                self.bank_block = lockup[0]
-                self.lockup_block = None
-            else:
-                self.bank_block = None
-                self.lockup_block = lockup[0]
+            for lock_or_bank in lockup:
+                title_name = lock_or_bank.select("tr th")[0].get_text()            
+                if title_name == "株主名":
+                    self.lockup_block = lock_or_bank
+                if title_name == "証券会社":
+                    self.bank_block = lock_or_bank
         
     def get_market(self):
         market_and_categoly = self.sammary_block.select('tr')[1]
