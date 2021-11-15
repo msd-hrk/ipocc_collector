@@ -45,6 +45,8 @@ class DetailCollector():
             self.multi_finance_block = None
         
         # ロックアップデータ
+        self.lockup_block = None
+        self.bank_block = None
         lockup = soup.select('.ta_base')
         # 株主情報があるか判定
         for lock_or_bank in lockup:
