@@ -46,14 +46,13 @@ class DetailCollector():
         
         # ロックアップデータ
         lockup = soup.select('.ta_base')
-        if len(lockup) >1:
-            # 株主情報があるか判定
-            for lock_or_bank in lockup:
-                title_name = lock_or_bank.select("tr th")[0].get_text()            
-                if title_name == "株主名":
-                    self.lockup_block = lock_or_bank
-                if title_name == "証券会社":
-                    self.bank_block = lock_or_bank
+        # 株主情報があるか判定
+        for lock_or_bank in lockup:
+            title_name = lock_or_bank.select("tr th")[0].get_text()            
+            if title_name == "株主名":
+                self.lockup_block = lock_or_bank
+            if title_name == "証券会社":
+                self.bank_block = lock_or_bank
         
     def get_market(self):
         market_and_categoly = self.sammary_block.select('tr')[1]
