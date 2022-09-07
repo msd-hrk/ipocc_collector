@@ -86,9 +86,7 @@ def check_work_day():
     yahoo_page = 'https://finance.yahoo.co.jp/quote/9434.T'
     html = requests.get(yahoo_page)
     soup = BeautifulSoup(html.content, 'html.parser')
-    section = soup.select("section")[2]
-    li = section.select("ul li")[6]
-    span = li.select("._6wHOvL5")[0].get_text()
+    span = soup.select("._6wHOvL5")[0].get_text()
     array = del_str(str(span), "(", ")").split("/")
     before_workday = datetime.date(now.year, int(array[0]), int(array[1])).strftime("%Y%m%d")
 
