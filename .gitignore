@@ -1,6 +1,3 @@
 app_info/config.json
 log/ipocc.log*
-<<<<<<< HEAD
-=======
 *.pyc
->>>>>>> 9cee3b3... fix gitignore
