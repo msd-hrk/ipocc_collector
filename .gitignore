@@ -1,2 +1,3 @@
 app_info/config.json
 log/ipocc.log*
+*/__pycache__/*
