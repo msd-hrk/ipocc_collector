@@ -51,6 +51,7 @@ def collector_main():
                 "unitShare":int(detail_colector.get_unit_share()), # 単元株,
                 "capital": yahoo_colector.get_capital(), # 資本金
                 "business": yahoo_colector.get_business(), # 事業内容
+                "businessDetail": yahoo_colector.get_business_detail(), # 事業内容詳細
                 "employee": yahoo_colector.get_employee(), # 従業員情報
                 "build": yahoo_colector.get_build(), # 設立
                 "holder_num": yahoo_colector.get_holder_num(), # 株主数

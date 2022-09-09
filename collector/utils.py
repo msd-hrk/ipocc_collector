@@ -33,10 +33,10 @@ def counter_column(table_data):
     return counter
 
 def arange_data(str_data):
-    return str(str_data).replace(" ","").replace("\r\n","").replace("\n","")
+    return str(str_data).replace(" ","").replace("　","").replace("\r\n","").replace("\n","")
 
 def del_str(before_data, *args):
-    target = before_data;
+    target = before_data
     for item in args:
         target = str(target).replace(item, "")
     return target
@@ -86,7 +86,7 @@ def check_work_day():
     yahoo_page = 'https://finance.yahoo.co.jp/quote/9434.T'
     html = requests.get(yahoo_page)
     soup = BeautifulSoup(html.content, 'html.parser')
-    span = soup.select("._6wHOvL5")[0].get_text()
+    span = soup.select("._6wHOvL5")[6].get_text()
     array = del_str(str(span), "(", ")").split("/")
     before_workday = datetime.date(now.year, int(array[0]), int(array[1])).strftime("%Y%m%d")
 
