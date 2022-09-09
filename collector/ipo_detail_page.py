@@ -254,8 +254,9 @@ class DetailCollector():
                 rate = lockup_l[2].get_text()
             # 潜在株数 int
             potential_shares = 0
-            if len(stock_b) > 3:
-                pot_s = lockup_l[1].select("div")[1].get_text()
+            div_b = lockup_l[1].select("div")
+            if len(div_b) > 1:
+                pot_s = div_b[1].get_text()
                 potential_shares = utils.del_str(pot_s,"（","）",",")
             # 売出数 int
             out_shares = 0

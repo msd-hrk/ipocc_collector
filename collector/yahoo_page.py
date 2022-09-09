@@ -16,9 +16,9 @@ class YahooCollector():
         soup = BeautifulSoup(html.content, 'html.parser')
         self.logger.debug("データ取得先：%s", url_1)
         
-        self.realtime_block = soup.select("section")[1] 
-        self.basic_block = soup.select("section")[2]
-        self.margin_block = soup.select("section")[6]
+        self.realtime_block = soup.select("._1nb3c4wQ")[0] 
+        self.basic_block = soup.select("#detail")[0]
+        self.margin_block = soup.select("#margin")[0]
 
     def get_closing_price(self):
         price = self.realtime_block.select("header ._3rXWJKZF")[0].get_text()
