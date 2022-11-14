@@ -274,7 +274,7 @@ class DetailCollector():
             array = str(lockup_b).split("/")
             if len(array) > 1:
                 lockup["day"] = int(utils.del_str(str(array[0]),"日間", "日"))
-                lockup["rate"] = round(float(utils.del_str(str(array[1]), "倍")), 2)
+                lockup["rate"] = round(float(utils.del_str(str(array[1]), "倍", " ", "　", "※")), 2)
             else:
                 l_info = utils.del_str(str(array[0]),"日間")
                 if utils.int_check(l_info):
