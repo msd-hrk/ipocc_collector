@@ -47,7 +47,13 @@ def int_check(target):
         return True
     except Exception:
         return False
-    
+
+def float_check(target):
+    try:
+        float(target)
+        return True
+    except Exception:
+        return False
 
 def del_jp_price(target):
     price = str(target)
