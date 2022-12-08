@@ -148,12 +148,18 @@ class DetailCollector():
                 # 経常利益  int
                 ord_in_l = self.solo_finance_block.select('tr')[2]
                 ordinary_income = utils.delete_canma(ord_in_l.select('td')[i].get_text())
+                if not utils.int_check(ordinary_income):
+                    ordinary_income = 0
                 # 当期利益  int
                 net_i_l = self.solo_finance_block.select('tr')[3]
                 net_income = utils.delete_canma(net_i_l.select('td')[i].get_text())
+                if not utils.int_check(net_income):
+                    net_income = 0
                 # 純資産  int
                 w_l = self.solo_finance_block.select('tr')[4]
                 net_worth = utils.delete_canma(w_l.select('td')[i].get_text())
+                if not utils.int_check(net_worth):
+                    net_worth = 0
                 # 配当金  int
                 div_l = self.solo_finance_block.select('tr')[5]
                 div = div_l.select('td')[i].get_text()
@@ -163,9 +169,13 @@ class DetailCollector():
                 # EPS  float
                 eps_l = self.solo_finance_block.select('tr')[6]
                 eps = utils.delete_canma(eps_l.select('td')[i].get_text())
+                if not utils.float_check(eps):
+                    eps = 0
                 # BPS  float
                 bps_l = self.solo_finance_block.select('tr')[7]
                 bps = utils.delete_canma(bps_l.select('td')[i].get_text())
+                if not utils.float_check(bps):
+                    bps = 0
                 
                 # 各期ごとのデータ作成
                 column = {
