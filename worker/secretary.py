@@ -53,6 +53,8 @@ def secretary_main():
                 "closePrice": yahoo_collector.get_closing_price(), # 終値
                 "maxPrice": yahoo_collector.get_high_price(), # 高値
                 "minPrice": yahoo_collector.get_low_price(), # 安値
+                "volumePrice": yahoo_collector.get_volume_price(), # 出来高
+                "tradingPrice": yahoo_collector.get_trading_price(), # 売買代金
                 "prchsMargin": credit_unpurchased, # 信用買残 
                 "salesMargin": credit_unsold, # 信用売残 
                 "ratioOfMargin": margin_rate, # 信用倍率 
