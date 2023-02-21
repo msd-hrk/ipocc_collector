@@ -16,6 +16,9 @@ class DbUtils():
     def search_code_list(self, code_no):
         return self.code_list.find_one({'securitiesNo': code_no})
 
+    def del_recode(self, code_no):
+        return self.code_list.delete_one({'securitiesNo': code_no})
+
     def insert_exploer_data_one(self, data): 
         self.code_list.insert(data)
 
