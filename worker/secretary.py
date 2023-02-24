@@ -35,7 +35,7 @@ def secretary_main():
             now_yyyymmdd = now.strftime("%Y%m%d")
             credit_unpurchased = yahoo_collector.get_credit_unpurchased()
             credit_unsold = yahoo_collector.get_credit_unsold()
-            margin_rate = "---"
+            margin_rate = ""
             if utils.int_check(credit_unpurchased) \
                 and utils.int_check(credit_unsold):
                 credit_unpurchased = int(credit_unpurchased)
@@ -58,6 +58,12 @@ def secretary_main():
                 "prchsMargin": credit_unpurchased, # 信用買残 
                 "salesMargin": credit_unsold, # 信用売残 
                 "ratioOfMargin": margin_rate, # 信用倍率 
+                "issuedShares": yahoo_collector.get_issued_shares(), # 発行済み株式数
+                "dividend": yahoo_collector.get_dividend(), # 配当
+                "per": yahoo_collector.get_PER(), # PER
+                "pbr": yahoo_collector.get_PBR(), # PBR
+                "eps": yahoo_collector.get_EPS(), # EPS
+                "bps": yahoo_collector.get_BPS(), # BPS
             }
 
             # priceDiaryフィールドが存在するか

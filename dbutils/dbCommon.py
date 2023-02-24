@@ -10,8 +10,8 @@ class DbUtils():
         conf = config.Config()
         # クライアント取得
         self.client = MongoClient(conf.mongo_url)
-        self.db = self.client.ipocc2
-        self.code_list = self.db.codelist2
+        self.db = self.client.ipocc
+        self.code_list = self.db.codelist
 
     def search_code_list(self, code_no):
         return self.code_list.find_one({'securitiesNo': code_no})
@@ -88,8 +88,8 @@ class DbUtils():
 
             if utils.check_exist_key(data, "priceDiary"):
                 # priceDiaryフィールドがある
-                if len(data["priceDiary"]) > 250:
-                    # 250日（1年の平日の数）を超えるものは除外
+                if len(data["priceDiary"]) > 500:
+                    # 500日（2年の平日の数）を超えるものは除外
                     continue
         
             target.append(data)

@@ -19,50 +19,100 @@ class YahooCollector():
         self.realtime_block = soup.select("._1nb3c4wQ")[0] 
         self.basic_block = soup.select("#detail")[0]
         self.margin_block = soup.select("#margin")[0]
+        self.referenc_block = soup.select("#referenc")[0]
 
     def get_closing_price(self):
         price = self.realtime_block.select("header ._3rXWJKZF")[0].get_text()
-        closing_price = int(utils.del_str(price, ","))
+        if not utils.int_check(price):
+            return ""
+        closing_price = str(utils.del_str(price, ","))
         return closing_price
     
     def get_open_price(self):
         o_b = self.basic_block.select("ul li")[1]
-        price = o_b.select("dd ._3rXWJKZF")[0].get_text()
-        open_price = int(utils.del_str(price, ","))
-        return open_price
+        price = utils.del_str(o_b.select("dd ._3rXWJKZF")[0].get_text(), ",")
+        if not utils.int_check(price):
+            return ""
+        return price
     
     def get_high_price(self):
         o_b = self.basic_block.select("ul li")[2]
-        price = o_b.select("dd ._3rXWJKZF")[0].get_text()
-        high_price = int(utils.del_str(price, ","))
-        return high_price
+        price = utils.del_str(o_b.select("dd ._3rXWJKZF")[0].get_text(), ",")
+        if not utils.int_check(price):
+            return ""
+        return price
     
     def get_low_price(self):
         o_b = self.basic_block.select("ul li")[3]
-        price = o_b.select("dd ._3rXWJKZF")[0].get_text()
-        low_price = int(utils.del_str(price, ","))
-        return low_price
+        price = utils.del_str(o_b.select("dd ._3rXWJKZF")[0].get_text(), ",")
+        if not utils.int_check(price):
+            return ""
+        return price
     
     def get_volume_price(self):
         o_b = self.basic_block.select("ul li")[4]
-        price = o_b.select("dd ._3rXWJKZF")[0].get_text()
-        volume_price = int(utils.del_str(price, ","))
-        return volume_price
+        price = utils.del_str(o_b.select("dd ._3rXWJKZF")[0].get_text(), ",")
+        if not utils.int_check(price):
+            return ""
+        return price
     
     def get_trading_price(self):
         o_b = self.basic_block.select("ul li")[5]
-        price = o_b.select("dd ._3rXWJKZF")[0].get_text()
-        trading_price = int(utils.del_str(price, ",")) * 1000
-        return trading_price
+        price = utils.del_str(o_b.select("dd ._3rXWJKZF")[0].get_text(), ",")
+        if not utils.int_check(price):
+            return ""
+        return price
     
     def get_credit_unpurchased(self):
         m_b = self.margin_block.select("ul li")[0]
-        amount = m_b.select("dd ._3rXWJKZF")[0].get_text()
-        credit_unpurchased = utils.del_str(amount, ",")
-        return credit_unpurchased
+        amount = utils.del_str(m_b.select("dd ._3rXWJKZF")[0].get_text(), ",")
+        if not utils.int_check(amount):
+            return ""
+        return amount
     
     def get_credit_unsold(self):
         m_b = self.margin_block.select("ul li")[3]
-        amount = m_b.select("dd ._3rXWJKZF")[0].get_text()
-        credit_unsold = utils.del_str(amount, ",")
-        return credit_unsold
+        amount = utils.del_str(m_b.select("dd ._3rXWJKZF")[0].get_text(), ",")
+        if not utils.int_check(amount):
+            return ""
+        return amount
+
+    def get_issued_shares(self):
+        r_b = self.referenc_block.select("ul li")[1]
+        shares = utils.del_str(r_b.select("dd ._3rXWJKZF")[0].get_text(), ",")
+        if not utils.int_check(shares):
+            return ""
+        return shares
+
+    def get_dividend(self):
+        r_b = self.referenc_block.select("ul li")[3]
+        dividend = r_b.select("dd ._3rXWJKZF")[0].get_text()
+        return dividend
+
+    def get_PER(self):
+        r_b = self.referenc_block.select("ul li")[4]
+        per = r_b.select("dd ._3rXWJKZF")[0].get_text()
+        if not utils.float_check(per):
+            return ""
+        return per
+
+    def get_PBR(self):
+        r_b = self.referenc_block.select("ul li")[5]
+        pbr = r_b.select("dd ._3rXWJKZF")[0].get_text()
+        if not utils.float_check(pbr):
+            return ""
+        return pbr
+
+    def get_EPS(self):
+        r_b = self.referenc_block.select("ul li")[6]
+        eps = r_b.select("dd ._3rXWJKZF")[0].get_text()
+        if not utils.float_check(eps):
+            return ""
+        return eps
+
+    def get_BPS(self):
+        r_b = self.referenc_block.select("ul li")[7]
+        bps = r_b.select("dd ._3rXWJKZF")[0].get_text()
+        if not utils.float_check(bps):
+            return ""
+        return bps
