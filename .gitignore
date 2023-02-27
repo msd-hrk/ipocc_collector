@@ -2,4 +2,7 @@ app_info/config.json
 log/ipocc.log*
 *.pyc
 scripts/rmtarget.log
-*/__pycache__/*
+app_info/__pycache__/*
+collector/__pycache__/*
+dbutils/__pycache__/*
+worker/__pycache__/*
