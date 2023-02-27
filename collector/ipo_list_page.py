@@ -17,11 +17,16 @@ class ListCollector():
         tag_data = self.data_up.select_one('.td_kigyo a')
         return tag_data.get_text()
             
-    def get_listingDate(self):
-        tag_data = self.data_up.select_one('td')
-        monthAndDay = re.search(r'\d{1,2}/\d{1,2}', str(tag_data)).group()
-        listingDate = utils.convesion_date_format(monthAndDay)
-        return utils.str_to_int(listingDate)
+    def get_listingDate(self, securities_no):
+        ipo_net_page = 'https://ipokabu.net/ipo/'+ securities_no
+        html = requests.get(ipo_net_page)
+        soup = BeautifulSoup(html.content, 'html.parser')
+        first_sec = soup.select("section")[0]
+        txt = first_sec.select(".ta_syosai_sp .f_jojo")[0].get_text()
+        arry = txt.split(" ")[0].split("/")
+        yyyymmdd = datetime.date(int(arry[0]), int(arry[1]), int(arry[2])).strftime("%Y%m%d")
+        print(yyyymmdd)
+        return int(yyyymmdd)
 
     def get_bookbilding_start(self):
         tag_data = self.data_up.select_one('.ipo_yotei2')

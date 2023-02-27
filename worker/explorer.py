@@ -4,7 +4,7 @@ import re
 import datetime
 from dbutils import dbCommon
 from logging import config,getLogger
-from collector import utils, ipo_list_page
+from collector import utils, ipo_list_page, ipo_detail_page
 import time
 from app_info import config as app_conf
 
@@ -59,10 +59,9 @@ def explorer_main():
 
             # 上場済みか？
             now = datetime.date.today().strftime("%Y%m%d")
-            listingDate = list_collector.get_listingDate()
+            listingDate = list_collector.get_listingDate(securities_no)
             if int(now) >= int(listingDate):
                 continue
-
             data = {
                 "company": list_collector.get_company(),
                 "securitiesNo": list_collector.get_securitiesNo(),
