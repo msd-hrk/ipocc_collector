@@ -69,7 +69,7 @@ def explorer_main():
                     "start": list_collector.get_bookbilding_start(),
                     "end": list_collector.get_bookbilding_end(),
                 },
-                "listingDate":list_collector.get_listingDate(),
+                "listingDate":list_collector.get_listingDate(securities_no),
                 "grade": list_collector.get_grade(),
             }
 
