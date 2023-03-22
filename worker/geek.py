@@ -19,6 +19,7 @@ def geek_main():
     # コードリスト内のcolector処理対象メソッドの取得
     targetList = dbutil.geek_target()
 
+    tbl = str.maketrans("SABCD", "ＳＡＢＣＤ")
     for data in targetList:
         try:
                 
@@ -28,11 +29,19 @@ def geek_main():
 
             # 証券コードから詳細ページの取得
             detail_colector = ipo_detail_page.DetailCollector(data["securitiesNo"])
-
+            grade = data["grade"]
+            if grade == "未定":
+                grade = str(detail_colector.get_grade()).translate(tbl)
+            else:
+                grade_now = str(detail_colector.get_grade()).translate(tbl)
+                if grade != grade_now:
+                    grade = grade + "->" +grade_now
+                    
             # データ作成
             update_data = {
                 "pubOfferPrice": int(detail_colector.get_pub_offer_price()), # 公募価格
-                "unitShare":int(detail_colector.get_unit_share()), # 単元株,
+                "unitShare": int(detail_colector.get_unit_share()), # 単元株,
+                "grade": grade, # 評価
             }
             logger.debug(update_data)
             if conf.data_insert_flg:

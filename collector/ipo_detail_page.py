@@ -283,8 +283,11 @@ class DetailCollector():
             }
             array = str(lockup_b).split("/")
             if len(array) > 1:
-                lockup["day"] = int(utils.del_str(str(array[0]),"日間", "日"))
-                lockup["rate"] = round(float(utils.del_str(str(array[1]), "倍", " ", "　", "※")), 2)
+                if utils.int_check(utils.del_str(str(array[0]),"日間", "日")):
+                    lockup["day"] = int(utils.del_str(str(array[0]),"日間", "日"))
+                    lockup["rate"] = round(float(utils.del_str(str(array[1]), "倍", " ", "　", "※")), 2)
+                else:
+                    lockup["status"] = str(array[0]) + "/" + str(array[1])
             else:
                 l_info = utils.del_str(str(array[0]),"日間")
                 if utils.int_check(l_info):
@@ -436,3 +439,7 @@ class DetailCollector():
         u_share = market_and_categoly.select('td')[1].get_text()
         unit_share = utils.del_str(u_share,"株")
         return unit_share
+
+    def get_grade(self):
+        grade = self.page_all.select(".ipo_ico_l img")[0].attrs.get("alt")
+        return grade

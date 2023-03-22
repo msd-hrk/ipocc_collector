@@ -51,7 +51,6 @@ class DbUtils():
                 # 初値があるものは除外
                 continue
             target.append(data)
-        print(len(target))
         return target
     
     def geek_target(self):
@@ -68,11 +67,10 @@ class DbUtils():
                 # 公募価格決定日が今日より先のものは除外
                 continue
         
-            if utils.check_exist_key(data, "pubOfferPrice"):
-                # 公募価格があるものは除外
-                continue
+            # if utils.check_exist_key(data, "pubOfferPrice"):
+            #     # 公募価格があるものは除外
+            #     continue
             target.append(data)
-        print(len(target))
         return target
     
     def secretary_target(self):
