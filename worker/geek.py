@@ -34,7 +34,7 @@ def geek_main():
                 grade = str(detail_colector.get_grade()).translate(tbl)
             else:
                 grade_now = str(detail_colector.get_grade()).translate(tbl)
-                if grade != grade_now:
+                if grade[-1] != grade_now:
                     grade = grade + "->" +grade_now
                     
             # データ作成
@@ -50,8 +50,13 @@ def geek_main():
 
             time.sleep(1)
         except Exception as err:
+            # 上場中止データ削除
+            dc = ipo_detail_page.DetailCollector(data["securitiesNo"])
+            if dc.is_stop_listing():
+                logger.debug("上場中止：" + data["securitiesNo"])
+                dbutil.del_recode(data["securitiesNo"])
+                continue
             err_securities_no_list.append(data["securitiesNo"])
             logger.exception('Error securitiesNo at %s: %s',data["securitiesNo"], err)
             continue
-
     return len(err_securities_no_list)

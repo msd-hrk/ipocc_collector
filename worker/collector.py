@@ -47,7 +47,7 @@ def collector_main():
                 "shareholders":detail_colector.get_share_holders(), # 上位10株主
                 "bank":detail_colector.get_bank_data(), # 主幹事データ
                 "expectedProfitBeforeTD":detail_colector.get_expected_profit_befTD(), # 予想利益（仮条件決定前）
-                "expectedProfitAfterTD":detail_colector.get_expected_profit_aftTD(), # 予想利益（仮条件決定前）
+                "expectedProfitAfterTD":detail_colector.get_expected_profit_aftTD(), # 予想利益（仮条件決定後）
                 "unitShare":int(detail_colector.get_unit_share()), # 単元株,
                 "capital": yahoo_colector.get_capital(), # 資本金
                 "business": yahoo_colector.get_business(), # 事業内容
@@ -73,9 +73,14 @@ def collector_main():
 
             time.sleep(1)
         except Exception as err:
+            # 上場中止データ削除
+            dc = ipo_detail_page.DetailCollector(data["securitiesNo"])
+            if dc.is_stop_listing():
+                logger.debug("上場中止：" + data["securitiesNo"])
+                dbutil.del_recode(data["securitiesNo"])
+                continue
             err_securities_no_list.append(data["securitiesNo"])
             logger.exception('Error securitiesNo at %s: %s',data["securitiesNo"], err)
-            continue
-    
+            continue    
     return len(err_securities_no_list)
     

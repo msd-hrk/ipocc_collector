@@ -328,10 +328,7 @@ class DetailCollector():
         length = len(self.page_all.select(".yoso_mae"))
         if length == 0:
             return {
-                "tdPrice": {
-                    "min": 0,
-                    "max": 0,
-                },
+                "exPrice": int(ex_price),
                 "initPriceEx": {
                     "min": 0,
                     "max": 0,
@@ -349,6 +346,20 @@ class DetailCollector():
         # 想定価格
         ex_p = ex_l.select("tr")[0].select("td span")[0].get_text()
         ex_price = utils.del_str(re.search(r".*円",str(ex_p)).group(),",","円")
+
+        # 想定価格しか記載がないとき
+        if len(ex_l.select("tr")) < 2:
+            return {
+                "exPrice": int(ex_price),
+                "initPriceEx": {
+                    "min": 0,
+                    "max": 0,
+                },
+                "exProfit": {
+                    "min": 0,
+                    "max": 0,
+                },
+            }
         # 初値予想
         ini_ex_b = ex_l.select("tr")[1].select("td .f_yoso")[0].get_text()
         ini_ex_arry = str(ini_ex_b).split("～")
@@ -443,3 +454,10 @@ class DetailCollector():
     def get_grade(self):
         grade = self.page_all.select(".ipo_ico_l img")[0].attrs.get("alt")
         return grade
+
+    def is_stop_listing(self):
+        ptags = self.page_all.select(".ipo_top .board p")
+        for p in ptags:
+            if "上場中止" in p.get_text():
+                return True
+        return False

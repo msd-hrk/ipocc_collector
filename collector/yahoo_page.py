@@ -22,7 +22,7 @@ class YahooCollector():
         self.referenc_block = soup.select("#referenc")[0]
 
     def get_closing_price(self):
-        price = self.realtime_block.select("header ._3rXWJKZF")[0].get_text()
+        price = utils.del_str(self.realtime_block.select("header ._3rXWJKZF")[0].get_text(),",")
         if not utils.int_check(price):
             return ""
         closing_price = str(utils.del_str(price, ","))

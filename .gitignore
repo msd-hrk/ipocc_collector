@@ -6,3 +6,4 @@ app_info/__pycache__/
 collector/__pycache__/
 dbutils/__pycache__/
 worker/__pycache__/
+test.py
