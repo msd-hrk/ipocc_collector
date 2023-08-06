@@ -17,7 +17,7 @@
 
 1.準備ができたらconfig.jsonを作成
 
-（config_sample.jsonを参考に）
+（config_sample.jsonを参考）
 
 2.requirements.txt（未作成）から必要なモジュールをインストール
 
