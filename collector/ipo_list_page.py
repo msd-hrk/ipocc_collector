@@ -24,7 +24,7 @@ class ListCollector():
         first_sec = soup.select("section")[0]
         txt = first_sec.select(".ta_syosai_sp .f_jojo")[0].get_text()
         arry = txt.split(" ")[0].split("/")
-        return int(datetime.date(int(arry[0]), int(arry[1]), int(arry[2])).strftime("%Y%m%d"))
+        return int(datetime.date(int(arry[0]), int(arry[1]), int(utils.del_str(arry[2],"(",")","月","火","水","木","金"))).strftime("%Y%m%d"))
 
     def get_bookbilding_start(self):
         tag_data = self.data_up.select_one('.ipo_yotei2')
