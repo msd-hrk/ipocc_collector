@@ -442,7 +442,7 @@ class DetailCollector():
     def get_pub_offer_price(self):
         i_l = self.init_block.select("tr")[1]
         i_b = i_l.select("td")[0].getText()
-        pub_offer_price = utils.del_str(i_b,",","円")
+        pub_offer_price = utils.del_str(i_b,",","円","公開価格が仮条件の価格帯より上振れる理由は？")
         return pub_offer_price
 
     def get_unit_share(self):

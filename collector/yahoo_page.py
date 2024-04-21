@@ -15,8 +15,8 @@ class YahooCollector():
         html = requests.get(url_1)
         soup = BeautifulSoup(html.content, 'html.parser')
         self.logger.debug("データ取得先：%s", url_1)
-        
-        self.realtime_block = soup.select("._1nb3c4wQ")[0] 
+
+        self.realtime_block = soup.select("._2Wu8DNvt")[0]
         self.basic_block = soup.select("#detail")[0]
         self.margin_block = soup.select("#margin")[0]
         self.referenc_block = soup.select("#referenc")[0]
