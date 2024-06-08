@@ -137,46 +137,64 @@ class DetailCollector():
         data = []
         if self.solo_finance_block is not None:
             fiscal_year_l = self.solo_finance_block.select('.f_1110 th')
+
             for i in range(utils.counter_column(fiscal_year_l), len(fiscal_year_l), 1):
+
+                # 変数宣言
+                amount_of_salls = 0
+                ordinary_income = 0
+                net_income = 0
+                net_worth = 0
+                dividend = 0.00
+                bps = 0.00
+                eps = 0.00
+
                 # 決算期  str
                 fiscal_year = utils.convert_yyyymm(fiscal_year_l[i].get_text())
-                # 売上高  int
-                am_l = self.solo_finance_block.select('tr')[1]
-                amount_of_salls = utils.delete_canma(am_l.select('td')[i].get_text())
-                if not utils.int_check(amount_of_salls):
-                    amount_of_salls = 0
-                # 経常利益  int
-                ord_in_l = self.solo_finance_block.select('tr')[2]
-                ordinary_income = utils.delete_canma(ord_in_l.select('td')[i].get_text())
-                if not utils.int_check(ordinary_income):
-                    ordinary_income = 0
-                # 当期利益  int
-                net_i_l = self.solo_finance_block.select('tr')[3]
-                net_income = utils.delete_canma(net_i_l.select('td')[i].get_text())
-                if not utils.int_check(net_income):
-                    net_income = 0
-                # 純資産  int
-                w_l = self.solo_finance_block.select('tr')[4]
-                net_worth = utils.delete_canma(w_l.select('td')[i].get_text())
-                if not utils.int_check(net_worth):
-                    net_worth = 0
-                # 配当金  int
-                div_l = self.solo_finance_block.select('tr')[5]
-                div = div_l.select('td')[i].get_text()
-                dividend = 0
-                if re.match(r'\d{1}', div) is not None:
-                    dividend = utils.delete_canma(div_l.select('td')[i].get_text())
-                # EPS  float
-                eps_l = self.solo_finance_block.select('tr')[6]
-                eps = utils.delete_canma(eps_l.select('td')[i].get_text())
-                if not utils.float_check(eps):
-                    eps = 0
-                # BPS  float
-                bps_l = self.solo_finance_block.select('tr')[7]
-                bps = utils.delete_canma(bps_l.select('td')[i].get_text())
-                if not utils.float_check(bps):
-                    bps = 0
                 
+                for col in self.solo_finance_block.select('tr'):
+                    td = col.select('td')
+                    if not td:
+                        continue
+                    
+                    title = td[0].get_text()
+                    if '売上高' in title:
+                        # 売上高  int
+                        amount_of_salls = utils.delete_canma(col.select('td')[i].get_text())
+                        if not utils.int_check(amount_of_salls):
+                            amount_of_salls = 0
+                    elif '経常利益' in title:
+                        # 経常利益  int
+                        ordinary_income = utils.delete_canma(col.select('td')[i].get_text())
+                        if not utils.int_check(ordinary_income):
+                            ordinary_income = 0
+                    elif '当期利益' in title:
+                        # 当期利益  int
+                        net_income = utils.delete_canma(col.select('td')[i].get_text())
+                        if not utils.int_check(net_income):
+                            net_income = 0
+                    elif '純資産' in title:
+                        # 純資産  int
+                        net_worth = utils.delete_canma(col.select('td')[i].get_text())
+                        if not utils.int_check(net_worth):
+                            net_worth = 0
+                    elif '配当金' in title:
+                        # 配当金  int
+                        div = col.select('td')[i].get_text()
+                        dividend = 0
+                        if re.match(r'\d{1}', div) is not None:
+                            dividend = utils.delete_canma(col.select('td')[i].get_text())
+                    elif 'EPS' in title:
+                        # EPS  float
+                        eps = utils.delete_canma(col.select('td')[i].get_text())
+                        if not utils.float_check(eps):
+                            eps = 0
+                    elif 'BPS' in title:
+                        # BPS  float
+                        bps = utils.delete_canma(col.select('td')[i].get_text())
+                        if not utils.float_check(bps):
+                            bps = 0
+
                 # 各期ごとのデータ作成
                 column = {
                     "fiscalYear":fiscal_year,
@@ -198,27 +216,60 @@ class DetailCollector():
         data = []
         if self.multi_finance_block is not None:
             fiscal_year_l = self.multi_finance_block.select('.f_1110 th')
+
             for i in range(utils.counter_column(fiscal_year_l), len(fiscal_year_l), 1):
-                # 決算期  str
+                # 変数宣言
+                amount_of_salls = 0
+                ordinary_income = 0
+                net_income = 0
+                net_worth = 0
+                dividend = 0.00
+                bps = 0.00
+                eps = 0.00
+
                 fiscal_year = utils.convert_yyyymm(fiscal_year_l[i].get_text())
-                # 売上高  int
-                am_l = self.multi_finance_block.select('tr')[1]
-                amount_of_salls = utils.delete_canma(am_l.select('td')[i].get_text())
-                # 経常利益  int
-                ord_in_l = self.multi_finance_block.select('tr')[2]
-                ordinary_income = utils.delete_canma(ord_in_l.select('td')[i].get_text())
-                # 当期利益  int
-                net_i_l = self.multi_finance_block.select('tr')[3]
-                net_income = utils.delete_canma(net_i_l.select('td')[i].get_text())
-                # 純資産  int
-                w_l = self.multi_finance_block.select('tr')[4]
-                net_worth = utils.delete_canma(w_l.select('td')[i].get_text())
-                # EPS  float
-                eps_l = self.multi_finance_block.select('tr')[5]
-                eps = utils.delete_canma(eps_l.select('td')[i].get_text())
-                # BPS  float
-                bps_l = self.multi_finance_block.select('tr')[6]
-                bps = utils.delete_canma(bps_l.select('td')[i].get_text())
+                for col in self.multi_finance_block.select('tr'):
+                    td = col.select('td')
+                    if not td:
+                        continue
+                    
+                    title = td[0].get_text()
+                    if '売上高' in title:
+                        # 売上高  int
+                        amount_of_salls = utils.delete_canma(col.select('td')[i].get_text())
+                        if not utils.int_check(amount_of_salls):
+                            amount_of_salls = 0
+                    elif '経常利益' in title:
+                        # 経常利益  int
+                        ordinary_income = utils.delete_canma(col.select('td')[i].get_text())
+                        if not utils.int_check(ordinary_income):
+                            ordinary_income = 0
+                    elif '当期利益' in title:
+                        # 当期利益  int
+                        net_income = utils.delete_canma(col.select('td')[i].get_text())
+                        if not utils.int_check(net_income):
+                            net_income = 0
+                    elif '純資産' in title:
+                        # 純資産  int
+                        net_worth = utils.delete_canma(col.select('td')[i].get_text())
+                        if not utils.int_check(net_worth):
+                            net_worth = 0
+                    elif '配当金' in title:
+                        # 配当金  int
+                        div = col.select('td')[i].get_text()
+                        dividend = 0
+                        if re.match(r'\d{1}', div) is not None:
+                            dividend = utils.delete_canma(col.select('td')[i].get_text())
+                    elif 'EPS' in title:
+                        # EPS  float
+                        eps = utils.delete_canma(col.select('td')[i].get_text())
+                        if not utils.float_check(eps):
+                            eps = 0
+                    elif 'BPS' in title:
+                        # BPS  float
+                        bps = utils.delete_canma(col.select('td')[i].get_text())
+                        if not utils.float_check(bps):
+                            bps = 0
                 
                 # 各期ごとのデータ作成
                 column = {
