@@ -39,7 +39,7 @@ def geek_main():
                     
             # データ作成
             update_data = {
-                "pubOfferPrice": int(detail_colector.get_pub_offer_price()), # 公募価格
+                "pubOfferPrice": str(detail_colector.get_pub_offer_price()), # 公募価格
                 "unitShare": int(detail_colector.get_unit_share()), # 単元株,
                 "grade": grade, # 評価
             }
