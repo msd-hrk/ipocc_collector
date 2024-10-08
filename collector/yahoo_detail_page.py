@@ -52,7 +52,7 @@ class YahooDetailCollector():
         td = tr.select("td")[0].get_text()
         num = re.search(r'\d*人', str(td)).group()
         age = re.search(r'平均.*歳', str(td)).group()
-        salary = re.search(r'年収.*万', str(td)).group()
+        salary = re.search(r'年収.*?万', str(td)).group()
         employee = {
             "num": int(utils.del_str(num, "人")),
             "age": int(round(float(utils.del_str(age, "歳","平均")), 0)),
