@@ -16,7 +16,7 @@ class YahooCollector():
         soup = BeautifulSoup(html.content, 'html.parser')
         self.logger.debug("データ取得先：%s", url_1)
 
-        self.realtime_block = soup.select(".PriceBoardMain__1nb3")[0]
+        self.realtime_block = soup.select(".PriceBoard__main__1liM")[0]
         self.basic_block = soup.select("#detail")[0]
         self.margin_block = soup.select("#margin")[0]
         self.referenc_block = soup.select("#referenc")[0]
